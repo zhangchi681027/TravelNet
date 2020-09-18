@@ -6,26 +6,58 @@ import cn.itcast.travel.util.JDBCUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.List;
+
 public class UserDaoImpl implements UserDao
 {
     JdbcTemplate jdbcTemplate = new JdbcTemplate(JDBCUtils.getDataSource());
 
 
     @Override
-    public User findUser(String Username)
+    public List<User> findUser(String username)
     {
-        System.out.println("我来查找用户了！");
-        User user = null;
+        List<User> userList = null;
         try
         {
             String sql = "select * from tab_user where username=?";
-            user = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<User>(User.class), Username);
+            userList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<User>(User.class), username);        }
+        catch (Exception e)
+        {
+
+        }
+        return userList;
+    }
+
+    @Override
+    public List<User> findPhone(String phoneNumber)
+    {
+        List<User> userList = null;
+        try
+        {
+            String sql = "select * from tab_user where telephone=?";
+            userList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<User>(User.class), phoneNumber);
         }
         catch (Exception e)
         {
 
         }
-        return user;
+        return userList;
+    }
+
+    @Override
+    public List<User> findEmail(String email)
+    {
+        List<User> userList = null;
+        try
+        {
+            String sql = "select * from tab_user where email=?";
+            userList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<User>(User.class), email);
+        }
+        catch (Exception e)
+        {
+
+        }
+        return userList;
     }
 
     @Override
@@ -39,7 +71,6 @@ public class UserDaoImpl implements UserDao
                 user.getSex(),
                 user.getTelephone(),
                 user.getEmail());
-        System.out.println("我来注册用户了！"+user.getSex());
-        return i>1?true:false;
+        return i>0?true:false;
     }
 }

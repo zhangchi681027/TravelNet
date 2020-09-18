@@ -21,9 +21,24 @@ public class registUserServlet extends HttpServlet
 {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        ResultInfo rst = new ResultInfo();
+
+        String code = request.getParameter("check");
+        String checkcode_server = (String) request.getSession().getAttribute("CHECKCODE_SERVER");
+        request.getSession().removeAttribute("CHECKCODE_SERVER");
+        if (!(code.equalsIgnoreCase(checkcode_server)))
+        {
+            rst.setFlag(false);
+            rst.setErrorMsg("验证码错误！");
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(rst);
+            response.setContentType("application/json;charset=utf-8");
+            response.getWriter().write(json);
+            return;
+        }
+
         UserService userService = new UserServiceImpl();
 
-        ResultInfo rst = new ResultInfo();
         try
         {
             User user = new User();
@@ -32,6 +47,7 @@ public class registUserServlet extends HttpServlet
             rst = userService.registUser(user);
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(rst);
+            response.setContentType("application/json;charset=utf-8");
             response.getWriter().write(json);
         } catch (Exception e)
         {
@@ -42,5 +58,11 @@ public class registUserServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         doPost(request, response);
+    }
+
+
+    public void checkEmail(HttpServletRequest request, HttpServletResponse response)
+    {
+        System.out.println("nihaoya");
     }
 }
