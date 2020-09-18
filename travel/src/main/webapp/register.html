@@ -119,6 +119,8 @@
 							else
 							{
 								$("#msg").html(data.errorMsg);
+								if (data.errorMsg == "验证码错误！")
+									changeCheckCode();
 							}
 						});
 					}
@@ -229,7 +231,7 @@
     							<td class="td_left"> 
     							</td>
     							<td class="td_right check"> 
-    								<input type="submit" class="submit" value="注册" onclick="changeCheckCode()">
+    								<input type="submit" class="submit" value="注册">
 									<span id="msg" style="color: red;"></span>
     							</td>
     						</tr>

@@ -11,4 +11,12 @@ public interface UserService
      * @return
      */
     public ResultInfo registUser(User user);
+
+    /**
+     * 激活用户
+     * @param email
+     * @param code
+     * @return
+     */
+    public boolean activeUser(String email, String code);
 }

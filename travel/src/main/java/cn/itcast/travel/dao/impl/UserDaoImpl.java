@@ -63,14 +63,25 @@ public class UserDaoImpl implements UserDao
     @Override
     public boolean registUser(User user)
     {
-        String sql = "insert into tab_user(username,password,name,birthday,sex,telephone,email) values(?,?,?,?,?,?,?)";
+        String sql = "insert into tab_user(username,password,name,birthday,sex,telephone,email,status,code) values(?,?,?,?,?,?,?,?,?)";
         int i = jdbcTemplate.update(sql, user.getUsername(),
                 user.getPassword(),
                 user.getName(),
                 user.getBirthday(),
                 user.getSex(),
                 user.getTelephone(),
-                user.getEmail());
+                user.getEmail(),
+                user.getStatus(),
+                user.getCode());
+
+        return i>0?true:false;
+    }
+
+    @Override
+    public boolean activeUserByEmailAndCode(String email, String code)
+    {
+        String sql = "update tab_user set status='y' where email=? and code=?";
+        int i = jdbcTemplate.update(sql, email, code);
         return i>0?true:false;
     }
 }

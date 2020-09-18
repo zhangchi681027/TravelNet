@@ -4,6 +4,8 @@ import cn.itcast.travel.domain.ResultInfo;
 import cn.itcast.travel.domain.User;
 import cn.itcast.travel.service.UserService;
 import cn.itcast.travel.service.impl.UserServiceImpl;
+import cn.itcast.travel.util.UuidUtil;
+import cn.itcast.travel.util.mail.SendEmail;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -44,7 +46,13 @@ public class registUserServlet extends HttpServlet
             User user = new User();
             Map<String, String[]> parameterMap = request.getParameterMap();
             BeanUtils.populate(user, parameterMap);
+            user.setCode(UuidUtil.getUuid());
+            user.setStatus("n");
             rst = userService.registUser(user);
+            if (rst.isFlag())
+            {
+                SendEmail.sendEmailMessage(user.getEmail(), user.getCode());
+            }
             ObjectMapper objectMapper = new ObjectMapper();
             String json = objectMapper.writeValueAsString(rst);
             response.setContentType("application/json;charset=utf-8");

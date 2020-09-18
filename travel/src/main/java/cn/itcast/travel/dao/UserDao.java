@@ -34,4 +34,12 @@ public interface UserDao
      * @return
      */
     public boolean registUser(User user);
+
+    /**
+     * 激活用户
+     * @param email
+     * @param code
+     * @return
+     */
+    public boolean activeUserByEmailAndCode(String email, String code);
 }

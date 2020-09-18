@@ -54,4 +54,10 @@ public class UserServiceImpl implements UserService
         }
         return rst;
     }
+
+    @Override
+    public boolean activeUser(String email, String code)
+    {
+        return userDao.activeUserByEmailAndCode(email, code);
+    }
 }
