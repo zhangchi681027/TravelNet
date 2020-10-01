@@ -19,4 +19,12 @@ public interface UserService
      * @return
      */
     public boolean activeUser(String email, String code);
+
+
+    /**
+     * 用户登录
+     * @param user
+     * @return
+     */
+    public ResultInfo loginUser(User user);
 }

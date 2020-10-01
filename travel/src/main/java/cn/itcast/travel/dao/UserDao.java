@@ -42,4 +42,11 @@ public interface UserDao
      * @return
      */
     public boolean activeUserByEmailAndCode(String email, String code);
+
+    /**
+     * 用户登录
+     * @param user
+     * @return
+     */
+    public User loginUser(User user);
 }

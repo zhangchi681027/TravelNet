@@ -107,3 +107,7 @@
 .reg a {
     color: #fc7f7f;
 }
+
+#errorMsg{
+    display: none;
+}

@@ -27,6 +27,7 @@ public class registUserServlet extends HttpServlet
 
         String code = request.getParameter("check");
         String checkcode_server = (String) request.getSession().getAttribute("CHECKCODE_SERVER");
+        System.out.println(checkcode_server);
         request.getSession().removeAttribute("CHECKCODE_SERVER");
         if (!(code.equalsIgnoreCase(checkcode_server)))
         {

@@ -60,4 +60,31 @@ public class UserServiceImpl implements UserService
     {
         return userDao.activeUserByEmailAndCode(email, code);
     }
+
+    @Override
+    public ResultInfo loginUser(User user)
+    {
+        ResultInfo rst = new ResultInfo();
+        User s = userDao.loginUser(user);
+        if (s == null)
+        {
+            rst.setFlag(false);
+            rst.setErrorMsg("用户名或密码输入有误！");
+        }
+        else if (s.getStatus().equals("n"))
+        {
+            rst.setFlag(false);
+            rst.setErrorMsg("用户未激活！请<a>激活</a>");
+        }
+        else if (s.getStatus().equals("y"))
+        {
+            rst.setFlag(true);
+        }
+        else
+        {
+            rst.setFlag(false);
+            rst.setErrorMsg("未知错误！");
+        }
+        return rst;
+    }
 }

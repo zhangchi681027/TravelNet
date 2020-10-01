@@ -14,15 +14,92 @@
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-      <!--导入angularJS文件-->
-    <script src="js/angular.min.js"></script>
 	<!--导入jquery-->
 	<script src="js/jquery-3.3.1.js"></script>
+
+	<script>
+		function checkUsername(){
+			var username = $("#username").val().trim();
+			var reg_username = /^\w{6,20}$/;
+			var flag = reg_username.test(username);
+			if (!flag)
+			{
+				$("#username").css("border", "1px solid red");
+			}
+			else
+			{
+				$("#username").css("border", "");
+			}
+			return flag;
+		}
+		function checkPassword(){
+			var password = $("#password").val().trim();
+			var reg_password = /^\w{6,20}$/;
+			var flag = reg_password.test(password);
+			if (!flag)
+			{
+				$("#password").css("border", "1px solid red");
+			}
+			else
+			{
+				$("#password").css("border", "");
+			}
+			return flag;
+		}
+		function checkCode(){
+			var code = $("#check").val();
+			var reg_code = /^[a-zA-Z0-9]{4}$/
+			var flag = reg_code.test(code);
+			if (!flag)
+			{
+				$("#check").css("border", "1px solid red");
+			}
+			else
+			{
+				$("#check").css("border", "");
+			}
+			return flag;
+		}
+		function focusfun(){
+			$(this).css("border", "");
+		}
+		function changeCheckCode()
+		{
+			$("#code_img1").prop("src", "checkCode?"+new Date().getTime());
+		}
+
+		$(function () {
+			changeCheckCode();
+			$("#loginForm").submit(function () {
+				if (checkUsername() && checkPassword() && checkCode())
+				{
+					$.post("loginServlet", $(this).serialize(), function (data) {
+						if (data.flag)
+						{
+							location.href = "./index.html";
+						}
+						else
+						{
+							$("#errorMsg").css("display", "block");
+							$("#errorMsg").text(data.errorMsg);
+						}
+					});
+				}
+				return false;
+			});
+
+			$("#username").blur(checkUsername);
+			$("#password").blur(checkPassword);
+
+			$("#username").focus(focusfun);
+			$("#password").focus(focusfun);
+		})
+	</script>
 </head>
 
 <body>
-<!--引入头部-->
-<div id="header"></div>
+	<!--引入头部-->
+	<div id="header"></div>
     <!-- 头部 end -->
     <section id="login_wrap">
         <div class="fullscreen-bg" style="background: url(images/login_bg.png);height: 532px;">
@@ -31,28 +108,22 @@
         <div class="login-box">
         	<div class="title">
         		<img src="images/login_logo.png" alt="">
-        		<span>欢迎登录黑马旅游账户</span>
+        		<span>欢迎登录旅游网账户</span>
         	</div>
         	<div class="login_inner">
 				
 				<!--登录错误提示消息-->
-        		<div id="errorMsg" class="alert alert-danger" ></div>
+        		<div id="errorMsg" class="alert alert-danger"></div>
 				<form id="loginForm" action="" method="post" accept-charset="utf-8">
         			<input type="hidden" name="action" value="login"/>
-					<input name="username" type="text" placeholder="请输入账号" autocomplete="off">
-        			<input name="password" type="text" placeholder="请输入密码" autocomplete="off">
+					<input id="username" name="username" type="text" placeholder="请输入账号" autocomplete="off">
+        			<input id="password" name="password" type="text" placeholder="请输入密码" autocomplete="off">
         			<div class="verify">
-					<input name="check" type="text" placeholder="请输入验证码" autocomplete="off">
-					<span><img src="checkCode" alt="" onclick="changeCheckCode(this)"></span>
-					<script type="text/javascript">
-						//图片点击事件
-						function changeCheckCode(img) {
-							img.src="checkCode?"+new Date().getTime();
-						}
-					</script>
-			</div>
-			<div class="submit_btn">
-        				<button type="button">登录</button>
+						<input name="check" id="check" type="text" placeholder="请输入验证码" autocomplete="off">
+						<span><img id="code_img1" src="checkCode" alt="" onclick="changeCheckCode()"></span>
+					</div>
+					<div class="submit_btn">
+        				<button type="submit">登录</button>
         				<div class="auto_login">
         					<input type="checkbox" name="" class="checkbox">
         					<span>自动登录</span>

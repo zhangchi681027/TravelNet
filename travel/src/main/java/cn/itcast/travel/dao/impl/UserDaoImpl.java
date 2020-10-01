@@ -8,10 +8,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class UserDaoImpl implements UserDao
 {
-    JdbcTemplate jdbcTemplate = new JdbcTemplate(JDBCUtils.getDataSource());
-
+    private JdbcTemplate jdbcTemplate = new JdbcTemplate(JDBCUtils.getDataSource());
 
     @Override
     public List<User> findUser(String username)
@@ -83,5 +84,28 @@ public class UserDaoImpl implements UserDao
         String sql = "update tab_user set status='y' where email=? and code=?";
         int i = jdbcTemplate.update(sql, email, code);
         return i>0?true:false;
+    }
+
+    @Override
+    public User loginUser(User user)
+    {
+        String sql = "select * from tab_user where username=? and password=?";
+        User user_select = null;
+        try
+        {
+            System.out.println(user.getUsername()+" "+user.getPassword());
+            user_select = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<User>(User.class), user.getUsername(), user.getPassword());
+        } catch (Exception e)
+        {
+            if (user_select != null)
+            {
+                System.out.println(user_select.getUsername());
+            }
+            else
+            {
+                System.out.println("user_select为空");
+            }
+        }
+        return user_select;
     }
 }
