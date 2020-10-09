@@ -3,6 +3,7 @@ package cn.itcast.travel.dao.impl;
 import cn.itcast.travel.dao.UserDao;
 import cn.itcast.travel.domain.User;
 import cn.itcast.travel.util.JDBCUtils;
+import org.junit.Test;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -13,6 +14,15 @@ import static org.junit.Assert.assertEquals;
 public class UserDaoImpl implements UserDao
 {
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(JDBCUtils.getDataSource());
+
+//    @Test
+//    public void test()
+//    {
+//        String sql = "select * from tab_user where username=?";
+//        User userList = (User) jdbcTemplate.query(sql, new BeanPropertyRowMapper<User>(User.class), "zhangchi");
+//        assertEquals(null, userList);
+//
+//    }
 
     @Override
     public List<User> findUser(String username)

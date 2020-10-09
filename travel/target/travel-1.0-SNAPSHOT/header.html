@@ -3,7 +3,7 @@
         $.get("findUserServlet", {}, function (Data) {
             if (Data.flag)
             {
-                var msg = "欢迎回来，"+Data.data.name;
+                var msg = "欢迎回来，"+Data.data;
                 alert(msg);
                 $("#user_msg").html(msg);
                 $("#non-user").css("display", "none");
@@ -17,6 +17,13 @@
         });
     });
 </script>
+
+<style>
+    .myline{
+        width: 300px;
+        margin-right: 60px;
+    }
+</style>
 <!-- 头部 start -->
     <header id="header">
         <div class="top_banner">
@@ -29,11 +36,11 @@
                 <a href="register.html">注册</a>
             </div>
             <!-- 登录状态  -->
-            <div class="login"  id="one-user">
+            <div class="login myline"  id="one-user">
             	
                 <span id="user_msg"></span>
                 <a href="myfavorite.html" class="collection">我的收藏</a>
-                <a href="javascript:;">退出</a>
+                <a href="javascript:location.href='quitServlet'">退出</a>
             </div>
         </div>
         <div class="header_wrap">

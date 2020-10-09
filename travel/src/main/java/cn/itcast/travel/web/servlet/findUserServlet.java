@@ -16,19 +16,15 @@ public class findUserServlet extends HttpServlet
 {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        System.out.println("wojinlaile000");
         User user = (User) request.getSession().getAttribute("user");
         ResultInfo resultInfo = new ResultInfo();
-        System.out.println("wojinlaile00000");
         if (user != null)
         {
-            System.out.println("wojinlaile00000notnull");
             resultInfo.setFlag(true);
-            resultInfo.setData(user);
+            resultInfo.setData(user.getUsername());
         }
         else
         {
-            System.out.println("wojinlaile00000null");
             resultInfo.setFlag(false);
             resultInfo.setData(null);
         }
