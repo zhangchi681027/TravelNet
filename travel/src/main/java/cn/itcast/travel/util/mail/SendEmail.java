@@ -45,7 +45,7 @@ public class SendEmail {
            message.setSubject("旅游网激活邮件通知");
 
            // Set the content
-           message.setContent( "感谢您注册旅游网帐号！请于24小时内<a href=\"http://localhost:8080/travel/activecodeServlet?email="+email+"&validateCode="+validateCode+"\" target=\"_blank\">点击激活</a>","text/html;charset=gb2312");
+           message.setContent( "感谢您注册旅游网帐号！请于24小时内<a href=\"http://localhost:8080/travel/user/active?email="+email+"&validateCode="+validateCode+"\" target=\"_blank\">点击激活</a>","text/html;charset=gb2312");
            message.saveChanges();
 
            Transport.send(message);

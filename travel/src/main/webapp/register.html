@@ -111,7 +111,7 @@
 				$("#registerForm").submit(function () {
 					if (checkUsername() && checkPassword() && checkEmail() && checkName() && checkTelephone() && checkCode())
 					{
-						$.post("registUserServlet",$(this).serialize(),function (data) {
+						$.post("user/regist",$(this).serialize(),function (data) {
 							if(data.flag)
 							{
 								location.href="./register_ok.html";
@@ -119,8 +119,7 @@
 							else
 							{
 								$("#msg").html(data.errorMsg);
-								if (data.errorMsg == "验证码错误！")
-									changeCheckCode();
+								changeCheckCode();
 							}
 						});
 					}
