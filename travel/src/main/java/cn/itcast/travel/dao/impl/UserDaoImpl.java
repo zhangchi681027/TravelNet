@@ -15,15 +15,6 @@ public class UserDaoImpl implements UserDao
 {
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(JDBCUtils.getDataSource());
 
-//    @Test
-//    public void test()
-//    {
-//        String sql = "select * from tab_user where username=?";
-//        User userList = (User) jdbcTemplate.query(sql, new BeanPropertyRowMapper<User>(User.class), "zhangchi");
-//        assertEquals(null, userList);
-//
-//    }
-
     @Override
     public List<User> findUser(String username)
     {
