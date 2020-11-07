@@ -6,6 +6,7 @@ import cn.itcast.travel.domain.Category;
 import cn.itcast.travel.service.CategoryService;
 import cn.itcast.travel.util.JedisUtil;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Tuple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService
     {
         Jedis jedis = JedisUtil.getJedis();
 
-        Set<String> category = jedis.zrange("category", 0, -1);
+        Set<Tuple> category = jedis.zrangeWithScores("category", 0, -1);
         List<Category> categories = null;
 
         if (category == null || category.size() == 0)
@@ -37,10 +38,11 @@ public class CategoryServiceImpl implements CategoryService
             categories = new ArrayList<Category>();
             System.out.println("从redis查询...");
             int i = 0;
-            for (String s : category)
+            for (Tuple s : category)
             {
                 Category cs = new Category();
-                cs.setCname(s);
+                cs.setCid((int) s.getScore());
+                cs.setCname(s.getElement());
                 categories.add(cs);
             }
         }
